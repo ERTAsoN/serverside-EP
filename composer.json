@@ -1,0 +1,21 @@
+{
+    "name": "ertason/serverside-ep",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ertason",
+            "email": "savel.andr.ivanov@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.4 | ^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Src\\": "core/Src/",
+            "": "app/"
+        }
+    }
+}
