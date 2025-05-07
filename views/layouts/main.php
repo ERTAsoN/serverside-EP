@@ -18,13 +18,9 @@
                     if (app()->auth::check()):
                 ?>
                     <a href="">Администрирование</a>
-                    <a href="<?php app()->route->getUrl('/employees')?>">Сотрудники</a>
+                    <a href="<?= app()->route->getUrl('/employees')?>">Сотрудники</a>
                     <a href="">Подразделения</a>
-                    <a href="<?php app()->route->getUrl('/logout')?>">Выход</a>
-                <?php
-                    else:
-                ?>
-                <a href="<?php app()->route->getUrl('/login')?>">Вход</a>
+                    <a href="<?= app()->route->getUrl('/logout')?>">Выход</a>
                 <?php
                     endif;
                 ?>
