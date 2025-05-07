@@ -5,27 +5,38 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>Pop it MVC</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+
 <header>
     <nav>
-        <a href="<?= app()->route->getUrl('/hello') ?>">Главная</a>
-        <?php
-        if (!app()->auth::check()):
-            ?>
-            <a href="<?= app()->route->getUrl('/login') ?>">Вход</a>
-            <a href="<?= app()->route->getUrl('/signup') ?>">Регистрация</a>
-        <?php
-        else:
-            ?>
-            <a href="<?= app()->route->getUrl('/logout') ?>">Выход (<?= app()->auth::user()->name ?>)</a>
-        <?php
-        endif;
-        ?>
+        <div class="wrapper">
+            <h1>Отдел кадров</h1>
+            <div class="nav-buttons">
+                <?php
+                    if (app()->auth::check()):
+                ?>
+                    <a href="">Администрирование</a>
+                    <a href="<?php app()->route->getUrl('/employees')?>">Сотрудники</a>
+                    <a href="">Подразделения</a>
+                    <a href="<?php app()->route->getUrl('/logout')?>">Выход</a>
+                <?php
+                    else:
+                ?>
+                <a href="<?php app()->route->getUrl('/login')?>">Вход</a>
+                <?php
+                    endif;
+                ?>
+            </div>
+        </div>
     </nav>
 </header>
+
 <main>
-    <?= $content ?? '' ?>
+    <div class="wrapper">
+        <?= $content ?? '' ?>
+    </div>
 </main>
 
 </body>
