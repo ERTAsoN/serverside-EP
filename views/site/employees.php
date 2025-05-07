@@ -56,22 +56,21 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <?php
-            foreach ($employees as $employee) {
-                echo '<td>' . $employee->id . '</td>'
-                   . '<td>' . ($employee->last_name ?? '---') . '</td>'
-                   . '<td>' . ($employee->name ?? '---') . '</td>'
-                   . '<td>' . ($employee->patronym ?? '---') . '</td>'
-                   . '<td>' . ($employee->gender->abbreviation ?? '---') . '</td>'
-                   . '<td>' . ($employee->birth_date ?? '---') . '</td>'
-                   . '<td>' . ($employee->address ?? '---') . '</td>'
-                   . '<td>' . ($employee->position->title ?? '---') . '</td>'
-                   . '<td>' . ($employee->unit->title ?? '---') . '</td>'
-                   . '<td>' . ($employee->staff->title ?? '---') . '</td>';
-            }
-            ?>
-        </tr>
+        <?php
+        foreach ($employees as $employee) {
+            echo '<tr><td>' . $employee['id'] . '</td>'
+               . '<td>' . ($employee['last_name'] ?? '---') . '</td>'
+               . '<td>' . ($employee['name'] ?? '---') . '</td>'
+               . '<td>' . ($employee['patronym'] ?? '---') . '</td>'
+               . '<td>' . (Gender::get($employee['gender_id']) ?? '---') . '</td>'
+               . '<td>' . ($employee['birth_date'] ?? '---') . '</td>'
+               . '<td>' . ($employee['address'] ?? '---') . '</td>'
+               . '<td>' . ($employee->position->title ?? '---') . '</td>'
+               . '<td>' . ($employee->unit->title ?? '---') . '</td>'
+               . '<td>' . ($employee->staff->title ?? '---') . '</td>'
+            . '</tr>';
+        }
+        ?>
         </tbody>
     </table>
 </div>

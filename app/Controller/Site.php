@@ -34,6 +34,7 @@ class Site
     public function employees(): string
     {
         $employees = Employee::all();
-        return new View('site.employees', ['employees' => $employees]);
+
+        return new View('site.employees', ['employees' => $employees->toArray()]);
     }
 }

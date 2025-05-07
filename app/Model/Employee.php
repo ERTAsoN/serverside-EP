@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Employee extends Model
 {
     use HasFactory;
+
+    public $fillable = [
+        'name',
+        'last_name',
+        'patronym',
+    ];
     public $timestamps = false;
 
     public function gender()
