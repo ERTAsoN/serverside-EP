@@ -62,12 +62,12 @@
                . '<td>' . ($employee['last_name'] ?? '---') . '</td>'
                . '<td>' . ($employee['name'] ?? '---') . '</td>'
                . '<td>' . ($employee['patronym'] ?? '---') . '</td>'
-               . '<td>' . (Gender::get($employee['gender_id']) ?? '---') . '</td>'
+               . '<td>' . ($employee['gender_id'] ??'---') . '</td>'
                . '<td>' . ($employee['birth_date'] ?? '---') . '</td>'
                . '<td>' . ($employee['address'] ?? '---') . '</td>'
-               . '<td>' . ($employee->position->title ?? '---') . '</td>'
-               . '<td>' . ($employee->unit->title ?? '---') . '</td>'
-               . '<td>' . ($employee->staff->title ?? '---') . '</td>'
+               . '<td>' . ($employee['position_id'] ?? '---') . '</td>'
+               . '<td>' . ($employee['unit_id']  ?? '---') . '</td>'
+               . '<td>' . ($employee['staff_id']  ?? '---') . '</td>'
             . '</tr>';
         }
         ?>

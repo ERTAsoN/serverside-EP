@@ -9,9 +9,4 @@ class Gender extends Model
 {
     use HasFactory;
     public $timestamps = false;
-
-    public function get($gender_id) : string
-    {
-        return self::find($this->$gender_id);
-    }
 }

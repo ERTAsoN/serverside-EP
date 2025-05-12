@@ -2,14 +2,11 @@
 
 namespace Controller;
 
-use Model\Employee;
-use Model\Post;
-use Model\User;
-use Src\View;
-use Src\Request;
 use Src\Auth\Auth;
+use Src\Request;
+use Src\View;
 
-class Site
+class AuthController
 {
     public function login(Request $request): string
     {
@@ -29,12 +26,5 @@ class Site
     {
         Auth::logout();
         app()->route->redirect('/login');
-    }
-
-    public function employees(): string
-    {
-        $employees = Employee::all();
-
-        return new View('site.employees', ['employees' => $employees->toArray()]);
     }
 }
