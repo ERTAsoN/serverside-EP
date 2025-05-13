@@ -57,4 +57,29 @@ class EmployeeController
             'staffs' => Staff::all(),
         ]);
     }
+
+    public function averageAgeByUnit(): string
+    {
+        $units = Unit::query()
+            ->selectRaw('
+            units.*, 
+            AVG(TIMESTAMPDIFF(YEAR, employees.birth_date, CURDATE())) as average_age
+        ')
+            ->leftJoin('employees', 'units.id', '=', 'employees.unit_id')
+            ->groupBy('units.id')
+            ->get();
+
+        return new View('site.average_age', ['units' => $units]);
+    }
+
+    public function delete(): void
+    {
+        $employee = Employee::find($_POST['id']);
+
+        if ($employee) {
+            $employee->delete();
+        }
+
+        app()->route->redirect('/employees');
+    }
 }
