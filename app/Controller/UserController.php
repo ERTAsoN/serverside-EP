@@ -37,4 +37,40 @@ class UserController
             'roles' => Role::all()
         ]);
     }
+
+    public function createUserForm(): string
+    {
+        return new View('site.create_user', [
+            'roles' => Role::all()
+        ]);
+    }
+
+    public function createUser(): void
+    {
+        // Валидация обязательных полей
+        $required = ['email', 'password', 'name', 'role_id'];
+        foreach ($required as $field) {
+            if (empty($_POST[$field])) {
+                app()->route->redirect('/users/create');
+                return;
+            }
+        }
+
+        // Проверка уникальности email
+        if (User::where('email', $_POST['email'])->exists()) {
+            app()->route->redirect('/users/add');
+            return;
+        }
+
+        // Создание пользователя
+        User::create([
+            'email' => $_POST['email'],
+            'password' => $_POST['password'],
+            'name' => $_POST['name'],
+            'role_id' => $_POST['role_id'],
+        ]);
+
+        app()->route->redirect('/users');
+    }
+
 }

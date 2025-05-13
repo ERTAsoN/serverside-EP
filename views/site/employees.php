@@ -1,16 +1,3 @@
-<div class="modal" id="deleteModal" style="display: none;">
-    <div class="modal-content">
-        <p>Удалить сотрудника?</p>
-        <div>
-            <form id="deleteForm" method="POST">
-                <input type="hidden" name="_method" value="DELETE">
-                <input type="hidden" name="id" id="employeeId">
-                <button type="submit" class="button">Да</button>
-                <button type="button" class="button cancel-btn">Нет</button>
-            </form>
-        </div>
-    </div>
-</div>
 <div class="display">
     <div class="display-buttons">
         <form method="POST">
@@ -54,7 +41,7 @@
         </form>
         <div>
             <div>
-                <a href="" class="button">Добавить</a>
+                <a href="<?= app()->route->getUrl('/employees/add') ?>" class="button">Добавить</a>
                 <a href="<?= app()->route->getUrl('/employees/average-age')?>" class="button">Подсчитать возраст</a>
             </div>
         </div>
@@ -78,11 +65,8 @@
         <tbody>
         <?php
         foreach ($employees as $employee) {
-            echo '<tr>
-                    <td>
-                        <a href="#" class="delete-btn" data-id="'.$employee->id.'">❌</a>
-                    </td>
-               .  <td>' . $employee['id'] . '</td>'
+            echo '<tr>'
+               . '<td>' . $employee['id'] . '</td>'
                . '<td>' . ($employee['last_name'] ?? '---') . '</td>'
                . '<td>' . ($employee['name'] ?? '---') . '</td>'
                . '<td>' . ($employee['patronym'] ?? '---') . '</td>'
@@ -98,49 +82,3 @@
         </tbody>
     </table>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const modal = document.getElementById('deleteModal');
-        const deleteBtns = document.querySelectorAll('.delete-btn');
-        const cancelBtn = document.querySelector('.cancel-btn');
-        const deleteForm = document.getElementById('deleteForm');
-
-        deleteBtns.forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const id = this.getAttribute('data-id');
-                document.getElementById('employeeId').value = id;
-                modal.style.display = 'block';
-            });
-        });
-
-        cancelBtn.addEventListener('click', function() {
-            modal.style.display = 'none';
-        });
-
-        window.onclick = function(event) {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        }
-
-        deleteForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const id = document.getElementById('employeeId').value;
-
-            fetch(`/employees/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(response => {
-                    if(response.ok) {
-                        window.location.reload();
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        });
-    });
-</script>

@@ -2,6 +2,8 @@
 
 namespace Controller;
 
+use Model\Gender;
+use Model\Position;
 use Src\View;
 use Model\Employee;
 use Model\Unit;
@@ -72,14 +74,42 @@ class EmployeeController
         return new View('site.average_age', ['units' => $units]);
     }
 
-    public function delete(): void
+    public function addEmployeeForm(): string
     {
-        $employee = Employee::find($_POST['id']);
+        return new View('site.add_employee', [
+            'genders' => Gender::all(),
+            'positions' => Position::all(),
+            'units' => Unit::all(),
+            'staffs' => Staff::all(),
+        ]);
+    }
 
-        if ($employee) {
-            $employee->delete();
+    public function addEmployee(): void
+    {
+        // Валидация обязательных полей
+        $required = ['last_name', 'name', 'gender_id', 'birth_date', 'address', 'position_id', 'unit_id', 'staff_id'];
+        foreach ($required as $field) {
+            if (empty($_POST[$field])) {
+                // Можно добавить обработку ошибок
+                app()->route->redirect('/employees/add');
+                return;
+            }
         }
 
+        // Создание сотрудника
+        $employee = Employee::create([
+            'last_name' => $_POST['last_name'],
+            'name' => $_POST['name'],
+            'patronym' => $_POST['patronym'] ?? null,
+            'gender_id' => $_POST['gender_id'],
+            'birth_date' => $_POST['birth_date'],
+            'address' => $_POST['address'],
+            'position_id' => $_POST['position_id'],
+            'unit_id' => $_POST['unit_id'],
+            'staff_id' => $_POST['staff_id'],
+        ]);
+
+        // Перенаправление после успешного добавления
         app()->route->redirect('/employees');
     }
 }
