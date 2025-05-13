@@ -19,7 +19,7 @@
                 ?>
                     <a href="">Администрирование</a>
                     <a href="<?= app()->route->getUrl('/employees')?>">Сотрудники</a>
-                    <a href="">Подразделения</a>
+                    <a href="<?= app()->route->getUrl('/units')?>">Подразделения</a>
                     <a href="<?= app()->route->getUrl('/logout')?>">Выход</a>
                 <?php
                     endif;
