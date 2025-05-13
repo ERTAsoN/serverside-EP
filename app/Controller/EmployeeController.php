@@ -4,36 +4,52 @@ namespace Controller;
 
 use Src\View;
 use Model\Employee;
+use Model\Unit;
+use Model\Staff;
 
 class EmployeeController
 {
     public function employees(): string
     {
-        $query = Employee::query();
+        $query = Employee::query()
+            ->select([
+                'employees.*',
+                'genders.abbreviation as gender_abbreviation',
+                'units.title as unit_title',
+                'staff.title as staff_title',
+                'positions.title as position_title',
+            ])
+            ->leftJoin('genders', 'employees.gender_id', '=', 'genders.id')
+            ->leftJoin('units', 'employees.unit_id', '=', 'units.id')
+            ->leftJoin('staff', 'employees.staff_id', '=', 'staff.id')
+            ->leftJoin('positions', 'employees.position_id', '=', 'positions.id');
 
-        // Фильтрация по подразделению
+        // Фильтрация
         if (!empty($_POST['unit_id'])) {
             $query->where('unit_id', $_POST['unit_id']);
         }
 
-        // Фильтрация по составу
         if (!empty($_POST['staff_id'])) {
             $query->where('staff_id', $_POST['staff_id']);
         }
 
         // Сортировка
-        if (!empty($_POST['sort_by'])) {
-            $query->orderBy($_POST['sort_by']);
+        $sortMapping = [
+            'id' => 'employees.id',
+            'last_name' => 'last_name',
+            'name' => 'name',
+            'gender' => 'gender.abbreviation',
+            'birth_date' => 'birth_date',
+            'unit_title' => 'units.title',
+            'staff_title' => 'staff.title',
+            'position_title' => 'positions.title'
+        ];
+
+        if (!empty($_POST['sort_by']) && isset($sortMapping[$_POST['sort_by']])) {
+            $query->orderBy($sortMapping[$_POST['sort_by']]);
         }
 
         $employees = $query->get();
-
-        foreach ($employees as $employee) {
-            $employee->gender_id = $employee->gender->abbreviation;
-            $employee->position_id = $employee->position->title;
-            $employee->unit_id = $employee->unit->title;
-            $employee->staff_id = $employee->staff->title;
-        }
 
         return new View('site.employees', [
             'employees' => $employees,

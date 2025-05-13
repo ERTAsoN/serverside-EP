@@ -5,7 +5,7 @@
                 <label>Подразделение:
                     <select name="unit_id">
                         <option value="">Все</option>
-                        <?php foreach (Unit::all() as $unit): ?>
+                        <?php foreach ($units as $unit): ?>
                             <option value="<?= $unit->id ?>" <?= ($_POST['unit_id'] ?? '') == $unit->id ? 'selected' : '' ?>>
                                 <?= $unit->title ?>
                             </option>
@@ -15,7 +15,7 @@
                 <label>Состав:
                     <select name="staff_id">
                         <option value="">Все</option>
-                        <?php foreach (Staff::all() as $staff): ?>
+                        <?php foreach ($staffs as $staff): ?>
                             <option value="<?= $staff->id ?>" <?= ($_POST['staff_id'] ?? '') == $staff->id ? 'selected' : '' ?>>
                                 <?= $staff->title ?>
                             </option>
@@ -31,6 +31,9 @@
                         <option value="last_name" <?= ($_POST['sort_by'] ?? '') == 'last_name' ? 'selected' : '' ?>>Фамилия</option>
                         <option value="name" <?= ($_POST['sort_by'] ?? '') == 'name' ? 'selected' : '' ?>>Имя</option>
                         <option value="birth_date" <?= ($_POST['sort_by'] ?? '') == 'birth_date' ? 'selected' : '' ?>>Дата рождения</option>
+                        <option value="unit_title" <?= ($_POST['sort_by'] ?? '') == 'unit_title' ? 'selected' : '' ?>>Подразделение</option>
+                        <option value="staff_title" <?= ($_POST['sort_by'] ?? '') == 'staff_title' ? 'selected' : '' ?>>Состав</option>
+                        <option value="position_title" <?= ($_POST['sort_by'] ?? '') == 'position_title' ? 'selected' : '' ?>>Должность</option>
                     </select>
                 </label>
                 <button type="submit" class="button">Применить</button>
@@ -65,12 +68,12 @@
                . '<td>' . ($employee['last_name'] ?? '---') . '</td>'
                . '<td>' . ($employee['name'] ?? '---') . '</td>'
                . '<td>' . ($employee['patronym'] ?? '---') . '</td>'
-               . '<td>' . ($employee['gender_id'] ??'---') . '</td>'
+               . '<td>' . ($employee['gender_abbreviation'] ??'---') . '</td>'
                . '<td>' . ($employee['birth_date'] ?? '---') . '</td>'
                . '<td>' . ($employee['address'] ?? '---') . '</td>'
-               . '<td>' . ($employee['position_id'] ?? '---') . '</td>'
-               . '<td>' . ($employee['unit_id']  ?? '---') . '</td>'
-               . '<td>' . ($employee['staff_id']  ?? '---') . '</td>'
+               . '<td>' . ($employee['position_title'] ?? '---') . '</td>'
+               . '<td>' . ($employee['unit_title']  ?? '---') . '</td>'
+               . '<td>' . ($employee['staff_title']  ?? '---') . '</td>'
             . '</tr>';
         }
         ?>
