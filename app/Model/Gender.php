@@ -9,4 +9,9 @@ class Gender extends Model
 {
     use HasFactory;
     public $timestamps = false;
+
+    public $fillable = [
+        'title',
+        'abbreviation'
+    ];
 }

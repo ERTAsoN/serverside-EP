@@ -3,34 +3,37 @@
         <form method="POST">
             <div>
                 <label>Подразделение:
-                    <select>
-                        <option>Подразделение 1</option>
-                        <option>Подразделение 2</option>
-                        <option>Подразделение 3</option>
+                    <select name="unit_id">
+                        <option value="">Все</option>
+                        <?php foreach (Unit::all() as $unit): ?>
+                            <option value="<?= $unit->id ?>" <?= ($_POST['unit_id'] ?? '') == $unit->id ? 'selected' : '' ?>>
+                                <?= $unit->title ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
                 </label>
                 <label>Состав:
-                    <select>
-                        <option>Состав 1</option>
-                        <option>Состав 2</option>
-                        <option>Состав 3</option>
+                    <select name="staff_id">
+                        <option value="">Все</option>
+                        <?php foreach (Staff::all() as $staff): ?>
+                            <option value="<?= $staff->id ?>" <?= ($_POST['staff_id'] ?? '') == $staff->id ? 'selected' : '' ?>>
+                                <?= $staff->title ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
                 </label>
             </div>
             <div>
                 <label>Сортировка:
-                    <select>
-                        <option>ID</option>
-                        <option>Фамилия</option>
-                        <option>Имя</option>
-                        <option>Отчество</option>
-                        <option>Дата рождения</option>
-                        <option>Должность</option>
-                        <option>Подразделение</option>
-                        <option>Состав</option>
+                    <select name="sort_by">
+                        <option value="">По умолчанию</option>
+                        <option value="id" <?= ($_POST['sort_by'] ?? '') == 'id' ? 'selected' : '' ?>>ID</option>
+                        <option value="last_name" <?= ($_POST['sort_by'] ?? '') == 'last_name' ? 'selected' : '' ?>>Фамилия</option>
+                        <option value="name" <?= ($_POST['sort_by'] ?? '') == 'name' ? 'selected' : '' ?>>Имя</option>
+                        <option value="birth_date" <?= ($_POST['sort_by'] ?? '') == 'birth_date' ? 'selected' : '' ?>>Дата рождения</option>
                     </select>
                 </label>
-                <a href="" class="button">Применить</a>
+                <button type="submit" class="button">Применить</button>
             </div>
         </form>
         <div>
