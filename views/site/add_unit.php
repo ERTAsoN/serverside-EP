@@ -1,6 +1,6 @@
 <div class="add-edit">
     <h3>Добавить подразделение</h3>
-    <form method="POST" action="<?= app()->route->getUrl('/units/add') ?>">
+    <form method="POST" action="<?= app()->route->getUrl('/add-unit') ?>">
         <label>Название</label>
         <input type="text" name="title" required>
 

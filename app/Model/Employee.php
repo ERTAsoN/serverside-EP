@@ -19,7 +19,8 @@ class Employee extends Model
         'address',
         'position_id',
         'unit_id',
-        'staff_id'
+        'staff_id',
+        'creator_id'
     ];
     public $timestamps = false;
 

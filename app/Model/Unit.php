@@ -13,7 +13,8 @@ class Unit extends Model
     public $timestamps = false;
 
     public $fillable = [
-        'title'
+        'title',
+        'type_id'
     ];
 
     public function employees(): HasMany

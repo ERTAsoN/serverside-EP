@@ -28,7 +28,7 @@
         </form>
         <div>
             <div>
-                <a href="<?= app()->route->getUrl('/units/add') ?>" class="button">Добавить</a>
+                <a href="<?= app()->route->getUrl('/add-unit') ?>" class="button">Добавить</a>
             </div>
         </div>
     </div>

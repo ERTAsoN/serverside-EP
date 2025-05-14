@@ -1,6 +1,6 @@
 <div class="add-edit">
     <h3>Добавить сотрудника</h3>
-    <form method="POST" action="<?= app()->route->getUrl('/employees/add') ?>">
+    <form method="POST" action="<?= app()->route->getUrl('/add-employee') ?>">
         <label>Фамилия</label>
         <input type="text" name="last_name" required>
 

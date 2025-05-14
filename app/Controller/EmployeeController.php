@@ -8,6 +8,7 @@ use Src\View;
 use Model\Employee;
 use Model\Unit;
 use Model\Staff;
+use Src\Auth\Auth;
 
 class EmployeeController
 {
@@ -91,13 +92,13 @@ class EmployeeController
         foreach ($required as $field) {
             if (empty($_POST[$field])) {
                 // Можно добавить обработку ошибок
-                app()->route->redirect('/employees/add');
+                app()->route->redirect('/add-employee');
                 return;
             }
         }
 
         // Создание сотрудника
-        $employee = Employee::create([
+        Employee::create([
             'last_name' => $_POST['last_name'],
             'name' => $_POST['name'],
             'patronym' => $_POST['patronym'] ?? null,
@@ -107,6 +108,7 @@ class EmployeeController
             'position_id' => $_POST['position_id'],
             'unit_id' => $_POST['unit_id'],
             'staff_id' => $_POST['staff_id'],
+            'creator_id' => Auth::user()->id,
         ]);
 
         // Перенаправление после успешного добавления

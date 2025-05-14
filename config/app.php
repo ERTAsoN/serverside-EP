@@ -7,6 +7,7 @@ return [
     //Классы для middleware
     'routeMiddleware' => [
         'auth' => \Middlewares\AuthMiddleware::class,
-        'antiauth' => \Middlewares\AntiAuthMiddleware::class
+        'antiauth' => \Middlewares\AntiAuthMiddleware::class,
+        'admin' => \Middlewares\AdminMiddleware::class,
     ]
 ];

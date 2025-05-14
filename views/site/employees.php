@@ -41,15 +41,14 @@
         </form>
         <div>
             <div>
-                <a href="<?= app()->route->getUrl('/employees/add') ?>" class="button">Добавить</a>
-                <a href="<?= app()->route->getUrl('/employees/average-age')?>" class="button">Подсчитать возраст</a>
+                <a href="<?= app()->route->getUrl('/add-employee') ?>" class="button">Добавить</a>
+                <a href="<?= app()->route->getUrl('/average-age')?>" class="button">Подсчитать возраст</a>
             </div>
         </div>
     </div>
     <table>
         <thead>
         <tr>
-            <th></th>
             <th>ID</th>
             <th>Фамилия</th>
             <th>Имя</th>

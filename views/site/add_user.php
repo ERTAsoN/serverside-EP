@@ -1,6 +1,6 @@
 <div class="add-edit">
     <h3>Добавить пользователя</h3>
-    <form method="POST" action="<?= app()->route->getUrl('/users/add') ?>">
+    <form method="POST" action="<?= app()->route->getUrl('/add-user') ?>">
         <label>Email</label>
         <input type="email" name="email" required>
 

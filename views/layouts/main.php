@@ -14,16 +14,14 @@
         <div class="wrapper">
             <h1>Отдел кадров</h1>
             <div class="nav-buttons">
-                <?php
-                    if (app()->auth::check()):
-                ?>
-                    <a href="<?= app()->route->getUrl('/users')?>">Пользователи</a>
+                <?php if (app()->auth::check()):?>
+                    <?php if (app()->auth::isAdmin()):?>
+                        <a href="<?= app()->route->getUrl('/users')?>">Пользователи</a>
+                    <?php endif; ?>
                     <a href="<?= app()->route->getUrl('/employees')?>">Сотрудники</a>
                     <a href="<?= app()->route->getUrl('/units')?>">Подразделения</a>
                     <a href="<?= app()->route->getUrl('/logout')?>">Выход</a>
-                <?php
-                    endif;
-                ?>
+                <?php endif; ?>
             </div>
         </div>
     </nav>

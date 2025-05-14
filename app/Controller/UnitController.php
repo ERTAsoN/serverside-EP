@@ -38,24 +38,24 @@ class UnitController
         ]);
     }
 
-    public function createForm(): string
+    public function addUnitForm(): string
     {
         return new View('site.add_unit', [
             'unitTypes' => UnitType::all()
         ]);
     }
 
-    public function store(): void
+    public function addUnit(): void
     {
         // Валидация обязательных полей
         if (empty($_POST['title'])) {
-            app()->route->redirect('/units/add');
+            app()->route->redirect('/add-unit');
             return;
         }
 
         Unit::create([
             'title' => $_POST['title'],
-            'type_id' => $_POST['type_id'] ?? null
+            'type_id' => $_POST['type_id']
         ]);
 
         app()->route->redirect('/units');

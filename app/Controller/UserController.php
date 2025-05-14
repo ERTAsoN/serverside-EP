@@ -38,20 +38,20 @@ class UserController
         ]);
     }
 
-    public function createUserForm(): string
+    public function addUserForm(): string
     {
-        return new View('site.create_user', [
+        return new View('site.add_user', [
             'roles' => Role::all()
         ]);
     }
 
-    public function createUser(): void
+    public function addUser(): void
     {
         // Валидация обязательных полей
         $required = ['email', 'password', 'name', 'role_id'];
         foreach ($required as $field) {
             if (empty($_POST[$field])) {
-                app()->route->redirect('/users/create');
+                app()->route->redirect('/users/add');
                 return;
             }
         }

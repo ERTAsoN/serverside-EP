@@ -51,6 +51,20 @@ class Auth
         return false;
     }
 
+    public static function isAdmin(): bool
+    {
+        $user = self::user();
+        if (!$user) {
+            return false;
+        }
+
+        if (!$user->relationLoaded('role')) {
+            $user->load('role');
+        }
+
+        return $user->role && $user->role->isadmin == 1;
+    }
+
     //Выход текущего пользователя
     public static function logout(): bool
     {
