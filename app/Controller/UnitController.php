@@ -2,6 +2,8 @@
 
 namespace Controller;
 
+use Src\Request;
+use Src\Validator\Validator;
 use Src\View;
 use Model\Unit;
 use Model\UnitType;
@@ -45,12 +47,19 @@ class UnitController
         ]);
     }
 
-    public function addUnit(): void
+    public function addUnit(Request $request): string
     {
         // Валидация обязательных полей
-        if (empty($_POST['title'])) {
-            app()->route->redirect('/add-unit');
-            return;
+        $validator = new Validator($request->all(), [
+            'title' => ['required'],
+            'type_id' => ['required'],
+        ], [
+            'required' => 'Поле :field пусто'
+        ]);
+
+        if($validator->fails()){
+            return new View('site.add_user',
+                ['message' => json_encode($validator->errors(), JSON_UNESCAPED_UNICODE)]);
         }
 
         Unit::create([
@@ -58,6 +67,6 @@ class UnitController
             'type_id' => $_POST['type_id']
         ]);
 
-        app()->route->redirect('/units');
+        return $this->units();
     }
 }

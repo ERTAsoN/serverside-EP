@@ -2,6 +2,8 @@
 
 namespace Controller;
 
+use Src\Request;
+use Src\Validator\Validator;
 use Src\View;
 use Model\User;
 use Model\Role;
@@ -45,21 +47,24 @@ class UserController
         ]);
     }
 
-    public function addUser(): void
+    public function addUser(Request $request): string
     {
         // Валидация обязательных полей
-        $required = ['email', 'password', 'name', 'role_id'];
-        foreach ($required as $field) {
-            if (empty($_POST[$field])) {
-                app()->route->redirect('/users/add');
-                return;
-            }
-        }
+        $validator = new Validator($request->all(), [
+            'name' => ['required'],
+            'email' => ['required', 'unique:users,email', 'email'],
+            'password' => ['required'],
+            'role_id' => ['required']
+        ], [
+            'required' => 'Поле :field пусто',
+            'unique' => 'Поле :field должно быть уникально',
+            'email' => 'Email должен соответствовать формату'
+        ]);
 
-        // Проверка уникальности email
-        if (User::where('email', $_POST['email'])->exists()) {
-            app()->route->redirect('/users/add');
-            return;
+        if($validator->fails()){
+            return new View('site.add_user',
+                ['roles' => Role::all(),
+                 'message' => json_encode($validator->errors(), JSON_UNESCAPED_UNICODE)]);
         }
 
         // Создание пользователя
@@ -70,7 +75,6 @@ class UserController
             'role_id' => $_POST['role_id'],
         ]);
 
-        app()->route->redirect('/users');
+        return $this->users();
     }
-
 }

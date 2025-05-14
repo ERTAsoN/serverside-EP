@@ -20,3 +20,6 @@
         <button type="submit" class="button">Добавить</button>
     </form>
 </div>
+<?php if ($message): ?>
+    <p><?= $message ?></p>
+<?php endif; ?>

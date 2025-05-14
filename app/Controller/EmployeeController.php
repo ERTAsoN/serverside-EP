@@ -4,11 +4,14 @@ namespace Controller;
 
 use Model\Gender;
 use Model\Position;
+use Src\Request;
+use Src\Validator\Validator;
 use Src\View;
 use Model\Employee;
 use Model\Unit;
 use Model\Staff;
 use Src\Auth\Auth;
+use Carbon\Carbon;
 
 class EmployeeController
 {
@@ -54,6 +57,10 @@ class EmployeeController
 
         $employees = $query->get();
 
+        foreach($employees as $employee) {
+            $employee['birth_date'] = Carbon::parse($employee['birth_date'])->format('d.m.Y');
+        }
+
         return new View('site.employees', [
             'employees' => $employees,
             'units' => Unit::all(),
@@ -85,16 +92,26 @@ class EmployeeController
         ]);
     }
 
-    public function addEmployee(): void
+    public function addEmployee(Request $request): string
     {
-        // Валидация обязательных полей
-        $required = ['last_name', 'name', 'gender_id', 'birth_date', 'address', 'position_id', 'unit_id', 'staff_id'];
-        foreach ($required as $field) {
-            if (empty($_POST[$field])) {
-                // Можно добавить обработку ошибок
-                app()->route->redirect('/add-employee');
-                return;
-            }
+        $validator = new Validator($request->all(), [
+            'last_name' => ['required'],
+            'name' => ['required',
+            'gender_id' => ['required'],
+            'birth_date' => ['required'],
+            'address' => ['required'],
+            'position_id' => ['required'],
+            'unit_id' => ['required'],
+            'staff_id' => ['required'],
+        ],
+        [
+            'required' => 'Поле :field пусто',
+        ]
+        ]);
+
+        if($validator->fails()){
+            return new View('site.add_user',
+                ['message' => json_encode($validator->errors(), JSON_UNESCAPED_UNICODE)]);
         }
 
         // Создание сотрудника
@@ -111,7 +128,6 @@ class EmployeeController
             'creator_id' => Auth::user()->id,
         ]);
 
-        // Перенаправление после успешного добавления
-        app()->route->redirect('/employees');
+        return $this->employees();
     }
 }
