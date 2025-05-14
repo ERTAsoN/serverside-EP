@@ -58,8 +58,9 @@ class UnitController
         ]);
 
         if($validator->fails()){
-            return new View('site.add_user',
-                ['message' => json_encode($validator->errors(), JSON_UNESCAPED_UNICODE)]);
+            return new View('site.add_unit',
+                ['unitTypes' => UnitType::all(),
+                 'message' => json_encode($validator->errors(), JSON_UNESCAPED_UNICODE)]);
         }
 
         Unit::create([

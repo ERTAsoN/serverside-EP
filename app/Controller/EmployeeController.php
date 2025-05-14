@@ -110,8 +110,13 @@ class EmployeeController
         ]);
 
         if($validator->fails()){
-            return new View('site.add_user',
-                ['message' => json_encode($validator->errors(), JSON_UNESCAPED_UNICODE)]);
+            return new View('site.add_employee', [
+                    'genders' => Gender::all(),
+                    'positions' => Position::all(),
+                    'units' => Unit::all(),
+                    'staffs' => Staff::all(),
+                    'message' => json_encode($validator->errors(), JSON_UNESCAPED_UNICODE)
+            ]);
         }
 
         // Создание сотрудника
