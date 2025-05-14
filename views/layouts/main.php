@@ -4,28 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Pop it MVC</title>
+    <title>Отдел кадров</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+
 <header>
     <nav>
-        <a href="<?= app()->route->getUrl('/hello') ?>">Главная</a>
-        <?php
-        if (!app()->auth::check()):
-            ?>
-            <a href="<?= app()->route->getUrl('/login') ?>">Вход</a>
-            <a href="<?= app()->route->getUrl('/signup') ?>">Регистрация</a>
-        <?php
-        else:
-            ?>
-            <a href="<?= app()->route->getUrl('/logout') ?>">Выход (<?= app()->auth::user()->name ?>)</a>
-        <?php
-        endif;
-        ?>
+        <div class="wrapper">
+            <h1>Отдел кадров</h1>
+            <div class="nav-buttons">
+                <?php if (app()->auth::check()):?>
+                    <?php if (app()->auth::isAdmin()):?>
+                        <a href="<?= app()->route->getUrl('/users')?>">Пользователи</a>
+                    <?php endif; ?>
+                    <a href="<?= app()->route->getUrl('/employees')?>">Сотрудники</a>
+                    <a href="<?= app()->route->getUrl('/units')?>">Подразделения</a>
+                    <a href="<?= app()->route->getUrl('/logout')?>">Выход</a>
+                <?php endif; ?>
+            </div>
+        </div>
     </nav>
 </header>
+
 <main>
-    <?= $content ?? '' ?>
+    <div class="wrapper">
+        <?= $content ?? '' ?>
+    </div>
 </main>
 
 </body>

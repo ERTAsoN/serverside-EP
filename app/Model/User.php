@@ -4,6 +4,7 @@ namespace Model;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Src\Auth\IdentityInterface;
 
 class User extends Model implements IdentityInterface
@@ -13,8 +14,9 @@ class User extends Model implements IdentityInterface
     public $timestamps = false;
     protected $fillable = [
         'name',
-        'login',
-        'password'
+        'email',
+        'password',
+        'role_id'
     ];
 
     protected static function booted()
@@ -40,7 +42,12 @@ class User extends Model implements IdentityInterface
     //Возврат аутентифицированного пользователя
     public function attemptIdentity(array $credentials)
     {
-        return self::where(['login' => $credentials['login'],
+        return self::where(['email' => $credentials['email'],
             'password' => md5($credentials['password'])])->first();
+    }
+
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class, 'role_id', 'id');
     }
 }

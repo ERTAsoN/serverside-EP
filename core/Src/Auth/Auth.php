@@ -51,6 +51,20 @@ class Auth
         return false;
     }
 
+    public static function isAdmin(): bool
+    {
+        $user = self::user();
+        if (!$user) {
+            return false;
+        }
+
+        if (!$user->relationLoaded('role')) {
+            $user->load('role');
+        }
+
+        return $user->role && $user->role->isadmin == 1;
+    }
+
     //Выход текущего пользователя
     public static function logout(): bool
     {
@@ -58,4 +72,10 @@ class Auth
         return true;
     }
 
+    public static function generateCSRF(): string
+    {
+        $token = md5(time());
+        Session::set('csrf_token', $token);
+        return $token;
+    }
 }
