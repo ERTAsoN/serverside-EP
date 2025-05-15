@@ -1,6 +1,8 @@
 <div class="add-edit">
     <h3>Добавить пользователя</h3>
     <form method="POST" action="<?= app()->route->getUrl('/add-user') ?>">
+        <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
+
         <label>Email</label>
         <input type="email" name="email" required>
 

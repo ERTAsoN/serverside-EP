@@ -3,7 +3,7 @@
 namespace Controller;
 
 use Src\Request;
-use Src\Validator\Validator;
+use MyVal\Validator;
 use Src\View;
 use Model\User;
 use Model\Role;
@@ -49,17 +49,21 @@ class UserController
 
     public function addUser(Request $request): string
     {
-        // Валидация обязательных полей
-        $validator = new Validator($request->all(), [
-            'name' => ['required'],
-            'email' => ['required', 'unique:users,email', 'email'],
-            'password' => ['required'],
-            'role_id' => ['required']
-        ], [
-            'required' => 'Поле :field пусто',
-            'unique' => 'Поле :field должно быть уникально',
-            'email' => 'Email должен соответствовать формату'
-        ]);
+        $validator = new Validator(
+            $request->all(),
+            [
+                'name' => ['required'],
+                'email' => ['required', 'unique:users,email', 'email'],
+                'password' => ['required'],
+                'role_id' => ['required']
+            ],
+            [
+                'required' => 'Поле :field пусто',
+                'unique' => 'Поле :field должно быть уникально',
+                'email' => 'Email должен соответствовать формату'
+            ],
+            app()->settings->app['validators'] ?? [] // Передаем валидаторы из конфига
+        );
 
         if($validator->fails()){
             return new View('site.add_user',

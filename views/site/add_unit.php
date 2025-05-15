@@ -1,6 +1,8 @@
 <div class="add-edit">
     <h3>Добавить подразделение</h3>
     <form method="POST" action="<?= app()->route->getUrl('/add-unit') ?>">
+        <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
+
         <label>Название</label>
         <input type="text" name="title" required>
 

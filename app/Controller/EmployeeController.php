@@ -5,7 +5,7 @@ namespace Controller;
 use Model\Gender;
 use Model\Position;
 use Src\Request;
-use Src\Validator\Validator;
+use MyVal\Validator;
 use Src\View;
 use Model\Employee;
 use Model\Unit;
@@ -106,7 +106,8 @@ class EmployeeController
         ],
         [
             'required' => 'Поле :field пусто',
-        ]
+        ],
+            app()->settings->app['validators'] ?? []
         ]);
 
         if($validator->fails()){

@@ -1,14 +1,15 @@
 <?php
 namespace Middlewares;
 
+
 use Src\Request;
-use function Collect\collection;
+use Collect\Collect;
 
 class SpecialCharsMiddleware
 {
     public function handle(Request $request): Request
     {
-        collection($request->all())
+        Collect::collection($request->all())
             ->each(function ($value, $key, $request) {
                 $request->set($key, is_string($value) ? htmlspecialchars($value) : $value);
             }, $request);

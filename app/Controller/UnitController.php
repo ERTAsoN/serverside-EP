@@ -3,7 +3,7 @@
 namespace Controller;
 
 use Src\Request;
-use Src\Validator\Validator;
+use MyVal\Validator;
 use Src\View;
 use Model\Unit;
 use Model\UnitType;
@@ -50,12 +50,15 @@ class UnitController
     public function addUnit(Request $request): string
     {
         // Валидация обязательных полей
-        $validator = new Validator($request->all(), [
-            'title' => ['required'],
-            'type_id' => ['required'],
-        ], [
-            'required' => 'Поле :field пусто'
-        ]);
+        $validator = new Validator(
+            $request->all(), [
+                'title' => ['required'],
+                'type_id' => ['required'],
+            ], [
+                'required' => 'Поле :field пусто'
+            ],
+            app()->settings->app['validators'] ?? []
+        );
 
         if($validator->fails()){
             return new View('site.add_unit',
